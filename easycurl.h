@@ -1,3 +1,6 @@
+#ifndef _easycurl_h_
+#define _easycurl_h_
+
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -5,8 +8,9 @@
 #include <locale>
 
 #include <boost/regex.hpp>
+#include <curl/curl.h>
 
-#include "curl/curl.h"
+extern "C" size_t decode_html_entities_utf8(char *dest, const char *src);
 
 #define USERAGENT_STR "Opera/12.80 (W/teindows NT 5.1; U; en) Presto/2.10.289 Version/12.02"
 #define ISPRINT_LOCALE "pt_PT"
@@ -22,7 +26,10 @@ class EasyCurl {
     CURLcode curlCode;
     
     int bufferTotal;
+    
     static bool is_not_printable(char c);
+    static string translateHtmlEntities(string str);
+    
     static int writer(char *data, size_t size, size_t nmemb, EasyCurl* instance);    
     int instanceWriter(char*data, size_t size, size_t nmemb);
 
@@ -31,6 +38,7 @@ class EasyCurl {
     
     bool determineIfHtml();    
     string parseFor(string expr, int match_no);
+
 
   public:
     bool requestWentOk;
@@ -48,3 +56,5 @@ class EasyCurl {
     
     EasyCurl(string url);
 };
+
+#endif

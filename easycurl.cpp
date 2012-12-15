@@ -5,7 +5,7 @@
 /////
 ////////////////////////////////////
 
-#include "curl.h"
+#include "easycurl.h"
 
 
 bool EasyCurl::is_not_printable(char c) {
@@ -58,7 +58,15 @@ string EasyCurl::parseFor(string expr, int match_no) {
     return "N/A";
   }
 }
-    
+string EasyCurl::translateHtmlEntities(string str) {
+  size_t n;
+  char buff[str.length()+1];
+  
+  n = decode_html_entities_utf8(buff, str.c_str());
+  
+  return string(buff);
+}
+
 EasyCurl::EasyCurl(string url) {
   this->request_url = url;
   int result;
@@ -89,12 +97,12 @@ EasyCurl::EasyCurl(string url) {
       this->requestWentOk = false;
       this->error_message = curl_easy_strerror(this->curlCode);
       return;
-    }
-
-    // Obtain HTML Title
+    }  
+    // Obtain HTML Title + translate HTML Entities
     string html_title_regexp = ".*(<title>|<title .+>)(.*)</title>.*";
     this->html_title = parseFor(html_title_regexp, 2);
-
+    this->html_title = EasyCurl::translateHtmlEntities(this->html_title);
+    
   }
   
   this->requestWentOk = true;
@@ -165,6 +173,7 @@ int EasyCurl::curlRequest() {
   curl_easy_getinfo(this->curl, CURLINFO_REDIRECT_COUNT, &redirect_count);
 
   ostringstream oss;
+  oss.precision(20);
   string s;
 
   oss << effective_url;
