@@ -7,4 +7,4 @@ test:
 	
 clean:
 	cd entities; make clean; cd ..
-	rm easycurl
+	rm test
