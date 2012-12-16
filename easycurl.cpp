@@ -44,11 +44,11 @@ bool EasyCurl::determineIfHtml() {
   return false;
 }
     
-string EasyCurl::parseFor(string expr, int match_no) {
+string EasyCurl::parseFor(string buffer, string expr, int match_no) {
   boost::regex re;
   boost::cmatch matches;
   re.assign(expr, boost::regex_constants::icase);
-  if (boost::regex_match(this->response_body.c_str(), matches, re)) {
+  if (boost::regex_match(buffer.c_str(), matches, re)) {
     try {
       return matches[match_no];
     } catch(...) {
@@ -99,8 +99,14 @@ EasyCurl::EasyCurl(string url) {
       return;
     }  
     // Obtain HTML Title + translate HTML Entities
-    string html_title_regexp = ".*(<title>|<title .+>)(.*)</title>.*";
-    this->html_title = parseFor(html_title_regexp, 2);
+    this->html_title = EasyCurl::parseFor(this->response_body,   
+      ".*(<title>|<title .+>)\\s*(.*)</title>.*", 2);
+
+    //strip trailing whitespace
+    size_t lp = this->html_title.find_last_not_of(" \t\n\r");
+    this->html_title = this->html_title.substr(0, lp+1);
+    
+    
     this->html_title = EasyCurl::translateHtmlEntities(this->html_title);
     
   }
@@ -162,7 +168,7 @@ int EasyCurl::curlRequest() {
     return -1;
   }
 
-  remove_if(this->response_body.begin(), this->response_body .end(), EasyCurl::is_not_printable);
+  remove_if(this->response_body.begin(), this->response_body.end(), EasyCurl::is_not_printable);
         
   // Along with the request get some information
   curl_easy_getinfo(this->curl, CURLINFO_EFFECTIVE_URL, &effective_url);

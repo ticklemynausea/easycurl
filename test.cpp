@@ -15,8 +15,8 @@ int main(int argc, char* argv[]) {
   cout << c->response_content_length << endl;
   
   if (c->isHtml) {
-     cout << "--" << endl << c->response_body << "--" << endl;
-     cout << "Title: " << c->html_title << endl;
+     //cout << "--" << endl << c->response_body << "--" << endl;
+     cout << "Title: «" << c->html_title << "»" << endl;
   }
   return 0;
 }

@@ -29,6 +29,7 @@ class EasyCurl {
     
     static bool is_not_printable(char c);
     static string translateHtmlEntities(string str);
+    static string parseFor(string buffer, string expr, int match_no);
     
     static int writer(char *data, size_t size, size_t nmemb, EasyCurl* instance);    
     int instanceWriter(char*data, size_t size, size_t nmemb);
@@ -37,7 +38,6 @@ class EasyCurl {
     int curlRequest();
     
     bool determineIfHtml();    
-    string parseFor(string expr, int match_no);
 
 
   public:
