@@ -50,7 +50,9 @@ string EasyCurl::parseFor(string buffer, string expr, int match_no) {
   re.assign(expr, boost::regex_constants::icase);
   if (boost::regex_match(buffer.c_str(), matches, re)) {
     try {
-      return matches[match_no];
+      string s = matches[match_no];
+      remove_if(s.begin(), s.end(), EasyCurl::is_not_printable);
+      return s;
     } catch(...) {
       return "N/A";
     }
@@ -168,8 +170,6 @@ int EasyCurl::curlRequest() {
     return -1;
   }
 
-  remove_if(this->response_body.begin(), this->response_body.end(), EasyCurl::is_not_printable);
-        
   // Along with the request get some information
   curl_easy_getinfo(this->curl, CURLINFO_EFFECTIVE_URL, &effective_url);
   curl_easy_getinfo(this->curl, CURLINFO_CONTENT_TYPE, &content_type);
