@@ -48,15 +48,15 @@ string EasyCurl::parseFor(string buffer, string expr, int match_no) {
   boost::regex re;
   boost::cmatch matches;
   re.assign(expr, boost::regex_constants::icase);
-  if (boost::regex_match(buffer.c_str(), matches, re)) {
-    try {
+  try {
+    if (boost::regex_match(buffer.c_str(), matches, re)) {
       string s = matches[match_no];
       remove_if(s.begin(), s.end(), EasyCurl::is_not_printable);
       return s;
-    } catch(...) {
+    } else {
       return "N/A";
     }
-  } else {
+  } catch(...) {
     return "N/A";
   }
 }
