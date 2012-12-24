@@ -43,20 +43,18 @@ bool EasyCurl::determineIfHtml() {
   
   return false;
 }
-    
+
 string EasyCurl::parseFor(string buffer, string expr, int match_no) {
   boost::regex re;
   boost::cmatch matches;
   re.assign(expr, boost::regex_constants::icase);
-  try {
-    if (boost::regex_match(buffer.c_str(), matches, re)) {
-      string s = matches[match_no];
-      remove_if(s.begin(), s.end(), EasyCurl::is_not_printable);
-      return s;
-    } else {
-      return "N/A";
-    }
-  } catch(...) {
+  
+  // Throws exceptions
+  if (boost::regex_match(buffer.c_str(), matches, re)) {
+    string s = matches[match_no];
+    remove_if(s.begin(), s.end(), EasyCurl::is_not_printable);
+    return s;
+  } else {
     return "N/A";
   }
 }
@@ -101,19 +99,26 @@ EasyCurl::EasyCurl(string url) {
       return;
     }  
     // Obtain HTML Title + translate HTML Entities
-    this->html_title = EasyCurl::parseFor(this->response_body,   
-      ".*(<title>|<title .+>)\\s*(.*)</title>.*", 2);
-
-    //strip trailing whitespace
-    size_t lp = this->html_title.find_last_not_of(" \t\n\r");
-    this->html_title = this->html_title.substr(0, lp+1);
+    try {
+      this->html_title = EasyCurl::parseFor(this->response_body,   
+        ".*(<title>|<title .+>)(.*)</title>.*", 2);
+      this->requestWentOk = true;
+    } catch(...) {
+      this->html_title = "N/A";
+      this->requestWentOk = false;
+    }
     
-    
-    this->html_title = EasyCurl::translateHtmlEntities(this->html_title);
-    
+    //strip leading and trailing whitespace
+    if (this->requestWentOk) {
+      size_t p_ld = this->html_title.find_first_not_of(" \t\n\r");
+      size_t p_tl = this->html_title.find_last_not_of(" \t\n\r");
+         
+      this->html_title = this->html_title.substr(p_ld, p_tl-p_ld+1);  
+      this->html_title = EasyCurl::translateHtmlEntities(this->html_title);
+    }
   }
-  
-  this->requestWentOk = true;
+
+
 }
     
 int EasyCurl::curlSetup(bool getBody) {
