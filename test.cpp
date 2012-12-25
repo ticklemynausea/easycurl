@@ -7,13 +7,15 @@ int main(int argc, char* argv[]) {
     
   EasyCurl* c = new EasyCurl(argv[1]);
   
-  if (!c->requestWentOk)
-    cout << c->error_message << "--" << endl;
-    
-  cout << c->request_url << endl;
-  cout << c->response_content_type << endl;
-  cout << c->response_content_length << endl;
+  if (!c->requestWentOk) {
+    cout << "  msg:" << c->error_message << endl;
+    cout << "ccode:" << c->error_code << endl << "--" << endl;
+  }
   
+  cout << "  url:" << c->request_url << endl;
+  cout << "ctype:" << c->response_content_type << endl;
+  cout << " clen:" << c->response_content_length << endl;
+
   if (c->isHtml) {
      cerr << c->response_body << "--" << endl;
      cout << "Title: «" << c->html_title << "»" << endl;

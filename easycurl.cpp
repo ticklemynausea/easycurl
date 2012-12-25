@@ -20,14 +20,14 @@ int EasyCurl::writer(char *data, size_t size, size_t nmemb, EasyCurl* instance) 
   return 0;
 }
     
-int EasyCurl::instanceWriter(char*data, size_t size, size_t nmemb) {
+int EasyCurl::instanceWriter(char *data, size_t size, size_t nmemb) {
 
   // Append the data to the buffer
   this->response_body.append(data, size * nmemb);
-  bufferTotal += size * nmemb;
+  this->bufferTotal += size * nmemb;
   
   //Stop if max size exceeded by returning 0
-  if (bufferTotal < DOWNLOAD_SIZE) {
+  if (this->bufferTotal < DOWNLOAD_SIZE) {
     return size * nmemb;
   } else {
     return 0;
@@ -93,11 +93,11 @@ EasyCurl::EasyCurl(string url) {
     }
       
     result = this->curlRequest();
-    if (result == -1) { 
+    if ((result == -1) && (this->curlCode != CURLE_WRITE_ERROR)) { 
       this->requestWentOk = false;
       this->error_message = curl_easy_strerror(this->curlCode);
       return;
-    }  
+    }
     // Obtain HTML Title + translate HTML Entities
     try {
       this->html_title = EasyCurl::parseFor(this->response_body,   
@@ -127,6 +127,7 @@ int EasyCurl::curlSetup(bool getBody) {
   this->curl = curl_easy_init();
   char errorBuffer[CURL_ERROR_SIZE];
   
+  this->bufferTotal = 0;
 
   if (!curl)
     return -1;
@@ -135,7 +136,7 @@ int EasyCurl::curlSetup(bool getBody) {
   curl_easy_setopt(this->curl, CURLOPT_URL, this->request_url.c_str());
   curl_easy_setopt(this->curl, CURLOPT_USERAGENT, USERAGENT_STR);
   //I'm not sure how CURL_TIMEOUT works
-  curl_easy_setopt(this->curl, CURLOPT_TIMEOUT, 5); 
+  curl_easy_setopt(this->curl, CURLOPT_TIMEOUT, 10); 
   curl_easy_setopt(this->curl, CURLOPT_MAXREDIRS, 10);
   curl_easy_setopt(this->curl, CURLOPT_HEADER, 0);
   curl_easy_setopt(this->curl, CURLOPT_NOSIGNAL, 1);
