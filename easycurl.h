@@ -46,7 +46,6 @@ class EasyCurl {
     bool isHtml;
     
     string error_message;
-    string error_code;
     
     string request_url;
     string redirect_count;

@@ -9,7 +9,6 @@ int main(int argc, char* argv[]) {
   
   if (!c->requestWentOk) {
     cout << "  msg:" << c->error_message << endl;
-    cout << "ccode:" << c->error_code << endl << "--" << endl;
   }
   
   cout << "  url:" << c->request_url << endl;
