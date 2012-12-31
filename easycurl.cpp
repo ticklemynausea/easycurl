@@ -110,7 +110,6 @@ EasyCurl::EasyCurl(string url) {
     }
     
     //strip leading and trailing whitespace
-    cout << "--" << endl << this->html_title << "--" << endl;
     if (this->requestWentOk) {
       size_t p_ld = this->html_title.find_first_not_of(" \t\n\r");
       size_t p_tl = this->html_title.find_last_not_of(" \t\n\r");
