@@ -36,11 +36,12 @@ int EasyCurl::instanceWriter(char *data, size_t size, size_t nmemb) {
     
 bool EasyCurl::determineIfHtml() {
   string valid[] = {"text/html", "application/xhtml+xml"};
-  
-  for (int i = 0; i < 2; i++)
-    if (this->response_content_type.compare(0, valid[i].length(), valid[i]) == 0)
-    return true;
-  
+
+  for (int i = 0; i < 2; i++) {
+    if (this->response_content_type.compare(0, valid[i].length(), valid[i]) == 0) {
+      return true;
+    }
+  }
   return false;
 }
 
@@ -50,9 +51,9 @@ string EasyCurl::parseFor(string buffer, string expr, int match_no) {
   re.assign(expr, boost::regex_constants::icase);
   
   // Throws exceptions
-  if (boost::regex_match(buffer.c_str(), matches, re)) {
+  if (boost::regex_match(buffer.c_str(), matches, re, boost::match_not_eol)) {
     string s = matches[match_no];
-    remove_if(s.begin(), s.end(), EasyCurl::is_not_printable);
+    s.erase(remove_if(s.begin(), s.end(), EasyCurl::is_not_printable), s.end());
     return s;
   } else {
     return "N/A";
@@ -101,7 +102,7 @@ EasyCurl::EasyCurl(string url) {
     // Obtain HTML Title + translate HTML Entities
     try {
       this->html_title = EasyCurl::parseFor(this->response_body,   
-        ".*(<title>|<title .+>)(.*)</title>.*", 2);
+          ".*(<title>|<title .+>)(.*)</title>.*", 2);
       this->requestWentOk = true;
     } catch(...) {
       this->html_title = "N/A";
@@ -109,6 +110,7 @@ EasyCurl::EasyCurl(string url) {
     }
     
     //strip leading and trailing whitespace
+    cout << "--" << endl << this->html_title << "--" << endl;
     if (this->requestWentOk) {
       size_t p_ld = this->html_title.find_first_not_of(" \t\n\r");
       size_t p_tl = this->html_title.find_last_not_of(" \t\n\r");
@@ -194,7 +196,7 @@ int EasyCurl::curlRequest() {
 
   oss << content_type;
   s = oss.str();
-  remove_if(s.begin(), s.end(), EasyCurl::is_not_printable);
+  s.erase(remove_if(s.begin(), s.end(), EasyCurl::is_not_printable), s.end());
   this->response_content_type = s;
   oss.str("");
 
