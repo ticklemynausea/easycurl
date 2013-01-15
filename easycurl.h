@@ -37,7 +37,7 @@ class EasyCurl {
     int curlSetup(bool getBody);
     int curlRequest();
     
-    bool determineIfHtml();    
+    bool determineIfHtml();
     
     void fail();
 

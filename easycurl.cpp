@@ -9,8 +9,9 @@
 
 
 bool EasyCurl::is_not_printable(char c) {
-  locale l(ISPRINT_LOCALE);
-  return !isprint(c, l);
+  //locale l(ISPRINT_LOCALE);
+  //return !isprint(c, l);
+  return !((unsigned int)c > 31);
 }
 
 int EasyCurl::writer(char *data, size_t size, size_t nmemb, EasyCurl* instance) {
