@@ -173,7 +173,7 @@ int EasyCurl::curlRequest() {
   this->curlCode = curl_easy_perform(this->curl);
 
 
-  if (this->curlCode != CURLE_OK) {
+  if ((this->curlCode != CURLE_OK) && (this->curlCode != CURLE_WRITE_ERROR)) {
     curl_easy_cleanup(this->curl);
     return -1;
   }

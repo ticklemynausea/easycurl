@@ -11,6 +11,8 @@ int main(int argc, char* argv[]) {
     cout << "  msg:" << c->error_message << endl;
   }
   
+  cout << " code:" << c->response_code << endl;
+  cout << "error:" << c->error_message << endl;
   cout << "  url:" << c->request_url << endl;
   cout << "ctype:" << c->response_content_type << endl;
   cout << " clen:" << c->response_content_length << endl;
