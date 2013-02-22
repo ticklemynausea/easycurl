@@ -60,6 +60,7 @@ string EasyCurl::parseFor(string buffer, string expr, int match_no) {
     return "N/A";
   }
 }
+
 string EasyCurl::translateHtmlEntities(string str) {
   size_t n;
   char buff[str.length()+1];
@@ -100,6 +101,8 @@ EasyCurl::EasyCurl(string url) {
       this->error_message = curl_easy_strerror(this->curlCode);
       return;
     }
+    
+    cout << "hi" << endl;
     // Obtain HTML Title + translate HTML Entities
     try {
       this->html_title = EasyCurl::parseFor(this->response_body,   
@@ -110,13 +113,17 @@ EasyCurl::EasyCurl(string url) {
       this->requestWentOk = false;
     }
     
-    //strip leading and trailing whitespace
-    if (this->requestWentOk) {
-      size_t p_ld = this->html_title.find_first_not_of(" \t\n\r");
-      size_t p_tl = this->html_title.find_last_not_of(" \t\n\r");
-         
-      this->html_title = this->html_title.substr(p_ld, p_tl-p_ld+1);  
-      this->html_title = EasyCurl::translateHtmlEntities(this->html_title);
+    if (this->html_title == "") {
+      this->html_title = "N/A";
+    } else {
+      //strip leading and trailing whitespace
+      if (this->requestWentOk) {
+        size_t p_ld = this->html_title.find_first_not_of(" \t\n\r");
+        size_t p_tl = this->html_title.find_last_not_of(" \t\n\r");
+           
+        this->html_title = this->html_title.substr(p_ld, p_tl-p_ld+1);  
+        this->html_title = EasyCurl::translateHtmlEntities(this->html_title);
+    }
     }
   }
 
