@@ -101,8 +101,7 @@ EasyCurl::EasyCurl(string url) {
       this->error_message = curl_easy_strerror(this->curlCode);
       return;
     }
-    
-    cout << "hi" << endl;
+
     // Obtain HTML Title + translate HTML Entities
     try {
       this->html_title = EasyCurl::parseFor(this->response_body,   
@@ -123,7 +122,7 @@ EasyCurl::EasyCurl(string url) {
            
         this->html_title = this->html_title.substr(p_ld, p_tl-p_ld+1);  
         this->html_title = EasyCurl::translateHtmlEntities(this->html_title);
-    }
+      }
     }
   }
 
