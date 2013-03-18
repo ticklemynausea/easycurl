@@ -6,6 +6,7 @@
 ////////////////////////////////////
 
 #include "easycurl.h"
+#include "stripper.h"
 
 
 bool EasyCurl::is_not_printable(char c) {
@@ -117,16 +118,11 @@ EasyCurl::EasyCurl(string url) {
     } else {
       //strip leading and trailing whitespace
       if (this->requestWentOk) {
-        size_t p_ld = this->html_title.find_first_not_of(" \t\n\r");
-        size_t p_tl = this->html_title.find_last_not_of(" \t\n\r");
-           
-        this->html_title = this->html_title.substr(p_ld, p_tl-p_ld+1);  
+        this->html_title = stripWhitespace(this->html_title);
         this->html_title = EasyCurl::translateHtmlEntities(this->html_title);
       }
     }
   }
-
-
 }
     
 int EasyCurl::curlSetup(bool getBody) {
