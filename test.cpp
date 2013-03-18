@@ -1,6 +1,27 @@
 #include "easycurl.h"
+#include "stripper.h"
 
-int main(int argc, char* argv[]) {
+void assertEqual (const std::string& a_output, const std::string& a_expected)
+{
+  if (a_output != a_expected) {
+    std::cout << "Fail:" << std::endl;
+    std::cout << "  Expected: " << a_expected << std::endl;
+    std::cout << "  Received: " << a_output << std::endl;
+  }
+}
+
+void stripWhitespaceTest (const std::string& a_source, const std::string& a_expected)
+{
+  assertEqual(stripWhitespace(a_source), a_expected);
+}
+
+int main(int argc, char* argv[])
+{
+  stripWhitespaceTest("  Hello   ", "Hello");
+  stripWhitespaceTest("Hello   ", "Hello");
+  stripWhitespaceTest("   Hello", "Hello");
+  stripWhitespaceTest("Hello,    world", "Hello, world");
+  stripWhitespaceTest("Hello,    pretty  world  ", "Hello, pretty world");
 
   if (argc < 2)
     return 0;
