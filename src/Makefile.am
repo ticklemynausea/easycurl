@@ -6,6 +6,8 @@ libeasycurl_la_LDFLAGS=@LIBCURL@ $(BOOST_REGEX_LDFLAGS)
 libeasycurl_la_LIBS=$(BOOST_REGEX_LIBS)
 libeasycurl_la_LIBADD=libentities.a
 
+include_HEADERS=easycurl.h
+
 noinst_LIBRARIES=libentities.a
 libentities_a_SOURCES=entities.c
 libentities_a_CFLAGS=-std=c99
