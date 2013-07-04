@@ -1,4 +1,4 @@
-#include "easycurl.h"
+#include <easycurl.h>
 #include "stripper.h"
 
 void assertEqual (const std::string& a_output, const std::string& a_expected)
