@@ -63,11 +63,8 @@ string EasyCurl::parseFor(string buffer, string expr, int match_no) {
 }
 
 string EasyCurl::translateHtmlEntities(string str) {
-  size_t n;
   char buff[str.length()+1];
-  
-  n = decode_html_entities_utf8(buff, str.c_str());
-  
+  decode_html_entities_utf8(buff, str.c_str());
   return string(buff);
 }
 
