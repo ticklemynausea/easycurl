@@ -365,8 +365,9 @@ size_t decode_html_entities_utf8(char *dest, const char *src)
 
 	char *to = dest;
 	const char *from = src;
+	const char *current;
 
-	for(const char *current; (current = strchr(from, '&'));)
+	for(current; (current = strchr(from, '&'));)
 	{
 		memcpy(to, from, (size_t)(current - from));
 		to += current - from;
