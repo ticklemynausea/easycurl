@@ -21,32 +21,38 @@ using namespace std;
 class EasyCurl {
 
   private:
-
     CURL* curl;
     CURLcode curlCode;
-    
+
     int bufferTotal;
-    
+
     static bool is_not_printable(char c);
+    static string filterUnprintables(string str);
     static string translateHtmlEntities(string str);
     static string parseFor(string buffer, string expr, int match_no);
-    
-    static int writer(char *data, size_t size, size_t nmemb, EasyCurl* instance);    
-    int instanceWriter(char*data, size_t size, size_t nmemb);
-
-    int curlSetup(bool getBody);
-    int curlRequest();
-    
     bool determineIfHtml();
-    
+
+    static int bodyWriter(char *data, size_t size, size_t nmemb, EasyCurl* instance);
+    int instanceBodyWriter(char*data, size_t size, size_t nmemb);
+
+    static int headerWriter(char *data, size_t size, size_t nmemb, EasyCurl* instance);
+    int instanceHeaderWriter(char*data, size_t size, size_t nmemb);
+
+    int curlSetup();
+    int curlRequest();
+
+    bool extractContentType();
+    bool extractTitle();
+    bool extractMetadata();
+
     void fail();
 
   public:
     bool requestWentOk;
     bool isHtml;
-    
+
     string error_message;
-    
+
     string request_url;
     string redirect_count;
     string response_content_type;
@@ -54,8 +60,9 @@ class EasyCurl {
     string response_code;
     string response_body;
     string html_title;
-    
+
     EasyCurl(string url);
+    ~EasyCurl();
 };
 
 #endif
