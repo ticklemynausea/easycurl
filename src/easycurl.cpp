@@ -31,7 +31,7 @@ int EasyCurl::headerWriter(char *data, size_t size, size_t nmemb, EasyCurl* inst
 }
 
 int EasyCurl::instanceHeaderWriter(char *data, size_t size, size_t nmemb) {
-  if (!memcmp(data, "\r\n", std::min(size*nmemb, 2U))) {
+  if (!memcmp(data, "\r\n", std::min(size*nmemb, (size_t)2U))) {
     if (extractContentType() && !isHtml) {
       // early abort if not html
       return 0;
