@@ -5,6 +5,11 @@ std::string stripWhitespace (const std::string& str)
 {
   size_t p_ld = str.find_first_not_of(" \t\n\r");
   size_t p_tl = str.find_last_not_of(" \t\n\r");
+
+  if (p_ld == std::string::npos) {
+    return "";
+  }
+
   std::string result = str.substr(p_ld, p_tl-p_ld+1);
 
   size_t j = 1;
