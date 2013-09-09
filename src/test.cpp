@@ -22,6 +22,7 @@ int main(int argc, char* argv[])
   stripWhitespaceTest("   Hello", "Hello");
   stripWhitespaceTest("Hello,    world", "Hello, world");
   stripWhitespaceTest("Hello,    pretty  world  ", "Hello, pretty world");
+  stripWhitespaceTest(" ", "");
 
   if (argc < 2)
     return 0;
