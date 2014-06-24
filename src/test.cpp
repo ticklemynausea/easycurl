@@ -42,6 +42,7 @@ int main(int argc, char* argv[])
   if (c->isHtml) {
      cerr << c->response_body << "--" << endl;
      cout << "Title: «" << c->html_title << "»" << endl;
+     cout << "Prntscr: «" << c->prntscr_url << "»" << endl;
   }
   return 0;
 }
