@@ -126,14 +126,32 @@ EasyCurl::EasyCurl(string url) {
   }
 
   extractMetadata();
+
   // Obtain HTML Title + translate HTML Entities
   extractTitle();
+
+  extractPrntscr();
+
 }
 
 EasyCurl::~EasyCurl() {
   if (this->curl) {
     curl_easy_cleanup(this->curl);
   }
+}
+
+bool EasyCurl::extractPrntscr() {
+  if (this->isHtml && boost::regex_match(this->request_url, boost::regex("^http:\\/\\/prntscr.com\\/[0-9a-zA-Z]{6}$"))) {
+    try {
+      this->prntscr_url = stripWhitespace(
+          translateHtmlEntities(
+            EasyCurl::parseFor(this->response_body, ".*<meta name=\"twitter:image:src\" content=\"([^\"]*)\".*", 1)));
+    } catch(...) {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 bool EasyCurl::extractTitle() {

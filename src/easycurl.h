@@ -43,6 +43,7 @@ class EasyCurl {
 
     bool extractContentType();
     bool extractTitle();
+    bool extractPrntscr();
     bool extractMetadata();
 
     void fail();
@@ -60,6 +61,7 @@ class EasyCurl {
     string response_code;
     string response_body;
     string html_title;
+    string prntscr_url;
 
     EasyCurl(string url);
     ~EasyCurl();
