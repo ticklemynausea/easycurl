@@ -1,11 +1,7 @@
 AC_PREREQ([2.65])
-AC_INIT([easycurl], [0.1], [noreply@dev.null])
-AM_INIT_AUTOMAKE
+AC_INIT([easycurl], [0.1], [noreply@dev.null], [easycurl], [https://github.com/ticklemynausea/popen-noshell])
+AM_INIT_AUTOMAKE([1.9])
 AC_CONFIG_MACRO_DIR([m4])
-
-#
-# Checks for programs.
-#
 
 AC_PROG_CXX
 AC_PROG_CC
@@ -24,7 +20,5 @@ AC_CONFIG_FILES([
     Makefile
     src/Makefile
 ])
-
-AC_CONFIG_HEADER([src/config.h])
 
 AC_OUTPUT

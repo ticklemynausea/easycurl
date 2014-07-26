@@ -1,3 +1,5 @@
+AUTOMAKE_OPTIONS = subdir-objects
+
 noinst_LTLIBRARIES=libentities.la
 libentities_la_SOURCES=entities/entities.c
 libentities_la_CFLAGS=-std=c99
@@ -18,6 +20,17 @@ libeasycurl_la_LDFLAGS=$(BOOST_SYSTEM_LDFLAGS) \
 libeasycurl_la_LIBADD=libentities.la
 
 include_HEADERS=easycurl.h
+
+pkgconfigdir = $(libdir)/pkgconfig
+nodist_pkgconfig_DATA = libeasycurl.pc
+
+libeasycurl.pc: libeasycurl.pc.in
+	sed -e 's![@]prefix[@]!$(prefix)!g' \
+		-e 's![@]exec_prefix[@]!$(exec_prefix)!g' \
+		-e 's![@]includedir[@]!$(includedir)!g' \
+		-e 's![@]libdir[@]!$(libdir)!g' \
+		-e 's![@]PACKAGE_VERSION[@]!$(PACKAGE_VERSION)!g' \
+		libeasycurl.pc.in > $@
 
 noinst_PROGRAMS=test
 test_SOURCES=test.cpp
