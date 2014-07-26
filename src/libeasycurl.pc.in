@@ -1,0 +1,10 @@
+prefix=@exec_prefix@
+includedir=@includedir@
+libdir=@libdir@
+
+Name: easycurl
+Description: c++-easycurl
+URL: https://github.com/ticklemynausea/easycurl
+Version: @PACKAGE_VERSION@
+Cflags: -I${includedir}
+Libs: -L${libdir} -leasycurl
