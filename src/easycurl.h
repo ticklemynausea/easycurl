@@ -3,20 +3,12 @@
 
 #include <iostream>
 #include <string>
-#include <sstream>
-#include <algorithm>
-#include <locale>
 
-#include <boost/regex.hpp>
 #include <curl/curl.h>
-
-extern "C" size_t decode_html_entities_utf8(char *dest, const char *src);
 
 #define USERAGENT_STR "Opera/12.80 (Windows NT 5.1; U; en) Presto/2.10.289 Version/12.02"
 #define ISPRINT_LOCALE "pt_PT"
 #define DOWNLOAD_SIZE (10*1024)
-
-using namespace std;
 
 class EasyCurl {
 
@@ -27,9 +19,9 @@ class EasyCurl {
     int bufferTotal;
 
     static bool is_not_printable(char c);
-    static string filterUnprintables(string str);
-    static string translateHtmlEntities(string str);
-    static string parseFor(string buffer, string expr, int match_no);
+    static std::string filterUnprintables(std::string str);
+    static std::string translateHtmlEntities(std::string str);
+    static std::string parseFor(std::string buffer, std::string expr, int match_no);
     bool determineIfHtml();
 
     static int bodyWriter(char *data, size_t size, size_t nmemb, EasyCurl* instance);
@@ -52,18 +44,18 @@ class EasyCurl {
     bool requestWentOk;
     bool isHtml;
 
-    string error_message;
+    std::string error_message;
 
-    string request_url;
-    string redirect_count;
-    string response_content_type;
-    string response_content_length;
-    string response_code;
-    string response_body;
-    string html_title;
-    string prntscr_url;
+    std::string request_url;
+    std::string redirect_count;
+    std::string response_content_type;
+    std::string response_content_length;
+    std::string response_code;
+    std::string response_body;
+    std::string html_title;
+    std::string prntscr_url;
 
-    EasyCurl(string url);
+    EasyCurl(std::string url);
     ~EasyCurl();
 };
 

@@ -8,6 +8,16 @@
 #include "easycurl.h"
 #include "stripper.h"
 
+#include <boost/regex.hpp>
+#include <sstream>
+#include <algorithm>
+#include <locale>
+
+using namespace std;
+
+extern "C" size_t decode_html_entities_utf8(char *dest, const char *src);
+
+
 bool EasyCurl::is_not_printable(char c) {
   //locale l(ISPRINT_LOCALE);
   //return !isprint(c, l);
@@ -158,7 +168,7 @@ bool EasyCurl::extractTitle() {
   if (this->isHtml) {
     try {
       this->html_title = EasyCurl::parseFor(this->response_body,
-          ".*(<title>|<title .+>)(.*)</title>.*", 2);
+          ".*(<title>|<title .+>)(.*?)</title>.*", 2);
     } catch(...) {
       this->requestWentOk = false;
     }
