@@ -14,7 +14,7 @@ extern "C" size_t decode_html_entities_utf8(char *dest, const char *src);
 
 #define USERAGENT_STR "Opera/12.80 (Windows NT 5.1; U; en) Presto/2.10.289 Version/12.02"
 #define ISPRINT_LOCALE "pt_PT"
-#define DOWNLOAD_SIZE (5*1024)
+#define DOWNLOAD_SIZE (10*1024)
 
 using namespace std;
 
