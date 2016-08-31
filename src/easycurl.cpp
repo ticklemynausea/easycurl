@@ -168,7 +168,7 @@ bool EasyCurl::extractTitle() {
   if (this->isHtml) {
     try {
       this->html_title = EasyCurl::parseFor(this->response_body,
-          ".*(<title>|<title .+>)(.*)</title>.*", 2);
+          ".*(<title>|<title .+>)(.*?)</title>.*", 2);
     } catch(...) {
       this->requestWentOk = false;
     }
