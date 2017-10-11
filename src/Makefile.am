@@ -10,12 +10,12 @@ libeasycurl_la_SOURCES=easycurl.cpp \
                        stripper.cpp
 
 libeasycurl_la_CPPFLAGS=$(BOOST_CPPFLAGS) \
-						@LIBCURL_CPPFLAGS@
+			@LIBCURL_CPPFLAGS@
 
 libeasycurl_la_LDFLAGS=$(BOOST_SYSTEM_LDFLAGS) \
-					   $(BOOST_REGEX_LDFLAGS) \
-					   $(BOOST_REGEX_LIBS) \
-					   @LIBCURL@ 
+		       $(BOOST_REGEX_LDFLAGS) \
+		       $(BOOST_REGEX_LIBS) \
+		       @LIBCURL@
 
 libeasycurl_la_LIBADD=libentities.la
 
@@ -33,5 +33,15 @@ libeasycurl.pc: libeasycurl.pc.in
 		libeasycurl.pc.in > $@
 
 noinst_PROGRAMS=test
+
 test_SOURCES=test.cpp
+
 test_LDADD=libeasycurl.la
+
+test_CPPFLAGS=$(BOOST_CPPFLAGS) \
+	     @LIBCURL_CPPFLAGS@
+
+test_LDFLAGS=$(BOOST_SYSTEM_LDFLAGS) \
+	     $(BOOST_REGEX_LDFLAGS) \
+	     $(BOOST_REGEX_LIBS) \
+	     @LIBCURL@
